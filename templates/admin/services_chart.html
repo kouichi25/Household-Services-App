@@ -1,0 +1,142 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Admin Services Chart    
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="container mt-5">
+        <h1 class="display-4 text-center mb-4">Services Data Visualization</h1>
+        <hr>
+        
+        <div class="text-center">
+            <a href="{{ url_for('admin') }}" class="btn btn-secondary btn-lg mt-3 mb-3 px-4 py-2">
+                Back to Dashboard
+            </a>
+        </div>
+    <hr>
+
+    <div class="row mb-5">
+        <div class="col-md-4 mb-4">
+            <h5 class="text-center">Service vs Count of Workers</h5>
+            <canvas id="servicesWorkersChart" style="height: 300px; width: 100%;"></canvas>
+        </div>
+        <div class="col-md-4 mb-4">
+            <h5 class="text-center">Job vs Base Price</h5>
+            <canvas id="jobsPriceChart" style="height: 300px; width: 100%;"></canvas>
+        </div>
+        <div class="col-md-4 mb-4">
+            <h5 class="text-center">Job vs Rating</h5>
+            <canvas id="jobRatingChart" style="height: 300px; width: 100%;"></canvas> <!-- Keeping same height for uniformity -->
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        fetch("{{ url_for('services_jobs_data') }}")
+            .then(response => response.json())
+            .then(data => {
+                // Service vs Count of Workers Chart
+                const workersCtx = document.getElementById("servicesWorkersChart").getContext("2d");
+                const maxCount = Math.max(...data.services_data.map(service => service.workers_count)) + 1; // Get max count + 1
+                new Chart(workersCtx, {
+                    type: "bar",
+                    data: {
+                        labels: data.services_data.map(service => service.name),
+                        datasets: [{
+                            label: "Count of Workers",
+                            data: data.services_data.map(service => service.workers_count),
+                            backgroundColor: "rgba(255, 99, 132, 0.6)", // Color for the bars
+                            borderColor: "rgba(255, 99, 132, 1)", // Border color for the bars
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: maxCount, // Set max value dynamically
+                                title: { display: true, text: "Count" },
+                                ticks: {
+                                    stepSize: 1 // Set step size to 1
+                                }
+                            },
+                            x: { title: { display: true, text: "Service Name" } }
+                        }
+                    }
+                });
+
+                // Job vs Base Price Chart
+                const priceCtx = document.getElementById("jobsPriceChart").getContext("2d");
+                new Chart(priceCtx, {
+                    type: "bar",
+                    data: {
+                        labels: data.jobs_data.map(job => job.name),
+                        datasets: [{
+                            label: "Base Price",
+                            data: data.jobs_data.map(job => job.base_price),
+                            backgroundColor: "rgba(75, 192, 192, 0.6)", // Color for the bars
+                            borderColor: "rgba(75, 192, 192, 1)", // Border color for the bars
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: { beginAtZero: true, title: { display: true, text: "Price (Rs)" } },
+                            x: { title: { display: true, text: "Job Name" } }
+                        }
+                    }
+                });
+
+                // Job vs Rating Chart (now as a pie chart)
+                const ratingCtx = document.getElementById("jobRatingChart").getContext("2d");
+                new Chart(ratingCtx, {
+                    type: "pie", // Change chart type to pie
+                    data: {
+                        labels: data.job_ratings_data.map(job => job.name),
+                        datasets: [{
+                            label: "Job Ratings",
+                            data: data.job_ratings_data.map(job => job.rating),
+                            backgroundColor: [
+                                "rgba(255, 99, 132, 0.6)", 
+                                "rgba(54, 162, 235, 0.6)",
+                                "rgba(255, 206, 86, 0.6)",
+                                "rgba(75, 192, 192, 0.6)",
+                                "rgba(153, 102, 255, 0.6)"
+                            ],
+                            borderColor: [
+                                "rgba(255, 99, 132, 1)", 
+                                "rgba(54, 162, 235, 1)",
+                                "rgba(255, 206, 86, 1)",
+                                "rgba(75, 192, 192, 1)",
+                                "rgba(153, 102, 255, 1)"
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(tooltipItem) {
+                                        return tooltipItem.label + ': ' + tooltipItem.raw; // Show job name and rating
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Admin Homepage    
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="display-1 text-center mb-4">Admin Dashboard</h1> <hr>
+
+        <div class="text-center">
+            <a href="{{ url_for('admin') }}" class="btn btn-warning btn-lg mt-3 mb-3 px-4 py-2">
+                Services Data
+            </a>
+
+            <a href="{{ url_for('admin_workers') }}" class="btn btn-warning btn-lg mt-3 mb-3 px-4 py-2">
+                Professionals Data
+            </a>
+
+            <a href="{{ url_for('admin_customers_chart') }}" class="btn btn-warning btn-lg mt-3 mb-3 px-4 py-2">
+                Customers Statistics
+            </a>
+        </div>
+        <hr>
+
+        <h1 class="display-4 text-center mb-4">Customers Data</h1>
+        <hr>
+
+        <!-- Services Section -->
+        <div class="card mb-5">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center my-4">
+                <h2 class="display-6">Customers</h2>
+            </div>
+            
+            <div class="card-body">
+                <!-- Search Form -->
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        <form method="GET" action="{{ url_for('admin_users') }}" class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Search for a customer..." value="{{ search_query }}">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Id</th>
+                                <th>Username</th>
+                                <th>Name</th>
+                                <th>Closed Requests Count</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for user in users %}
+                                <tr>
+                                    <td>{{ user.id }}</td>
+                                    <td>{{ user.username }}</td>
+                                    <td>{{ user.name }}</td>
+                                    <td>{{ user.closed_requests_count() }}</td>
+                                    <td>
+                                        <a href="{{ url_for('view_admin_user', user_id=user.id) }}" class="btn btn-info btn-sm">
+                                            <i class="fa fa-search"></i> Show
+                                        </a>
+                                        <a href="{{ url_for('delete_admin_user', user_id=user.id) }}" class="btn btn-danger btn-sm">
+                                            <i class="fa fa-trash"></i> Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

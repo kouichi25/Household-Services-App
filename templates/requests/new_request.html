@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="display-4 text-center mb-4">Book {{ job.name }}</h1>
+        
+        <form action="{{ url_for('service_request_post', job_id=job.id) }}" method="POST">
+            <div class="form-group">
+                <label for="date_of_job">Enter the date of Job</label>
+                <input type="date" name="date_of_job" id="date_of_job" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="special_instructions">Special Instructions</label>
+                <textarea name="special_instructions" id="special_instructions" class="form-control" rows="3" placeholder="Enter any special instructions (optional)"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit Request</button>
+        </form>
+    </div>
+{% endblock %}
+

@@ -1,0 +1,177 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Workers Statistics    
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="display-4 text-center mb-4">Workers Data Visualization</h1>
+    <hr>
+    
+    <div class="text-center">
+        <a href="{{ url_for('admin') }}" class="btn btn-secondary btn-lg mt-3 mb-3 px-4 py-2">
+            Back to Dashboard
+        </a>
+    </div>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-6">
+            <canvas id="topWorkersChart" width="400" height="200"></canvas>
+        </div>
+        <div class="col-md-6">
+            <canvas id="closedJobsChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+    
+    <div class="row mt-4 justify-content-center">
+        <div class="col-md-8">
+            <canvas id="revenueChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/admin/workers_data')
+                .then(response => response.json())
+                .then(data => {
+                    // Chart 1: Best 5 Workers according to ratings
+                    const ctx1 = document.getElementById('topWorkersChart').getContext('2d');
+                    const topWorkersChart = new Chart(ctx1, {
+                        type: 'bar',
+                        data: {
+                            labels: data.top_workers_labels,
+                            datasets: [{
+                                label: 'Top 5 Workers Ratings',
+                                data: data.top_workers_ratings,
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'Top 5 Workers Based on Ratings'
+                                },
+                                legend: {
+                                    display: true,
+                                    position: 'top'
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Ratings'
+                                    }
+                                },
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Workers'
+                                    }
+                                }
+                            }
+                        }
+                    });
+        
+                    // Chart 2: Workers and number of closed jobs
+                    const ctx2 = document.getElementById('closedJobsChart').getContext('2d');
+                    const closedJobsChart = new Chart(ctx2, {
+                        type: 'bar',
+                        data: {
+                            labels: data.workers_labels,
+                            datasets: [{
+                                label: 'Closed Jobs Count',
+                                data: data.closed_jobs_counts,
+                                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                                borderColor: 'rgba(153, 102, 255, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'Number of Closed Jobs by Workers'
+                                },
+                                legend: {
+                                    display: true,
+                                    position: 'top'
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Closed Jobs'
+                                    }
+                                },
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Workers'
+                                    }
+                                }
+                            }
+                        }
+                    });
+        
+                    // Chart 3: Revenue Generated by Workers
+                    const ctx3 = document.getElementById('revenueChart').getContext('2d');
+                    const revenueChart = new Chart(ctx3, {
+                        type: 'bar',
+                        data: {
+                            labels: data.workers_labels,  // Use the same labels for revenue
+                            datasets: [{
+                                label: 'Revenue Generated (Rs)',
+                                data: data.revenue,  // This should come from your route
+                                backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                                borderColor: 'rgba(255, 206, 86, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'Revenue Generated by Workers'
+                                },
+                                legend: {
+                                    display: true,
+                                    position: 'top'
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Revenue (Rs)'
+                                    }
+                                },
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Workers'
+                                    }
+                                }
+                            }
+                        }
+                    });
+                })
+                .catch(error => console.error('Error fetching worker data:', error));
+        });
+    </script>
+    
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block title %}
+    User Profile Page
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <h1 class="profile-header">
+        Hello <span class="text-muted">@{{user.username}}</span>
+    </h1>
+
+    <div class="profile-pic">
+        <img src="https://api.dicebear.com/9.x/lorelei/svg?seed={{user.username}}" alt="" srcset="">
+    </div>
+
+    <div class="profile-details">
+        <!-- User Profile -->
+        {% if session['role'] == 'user' %}
+            <p><span>Name:</span> {{ user.name }}</p>
+            <p><span>Address:</span> {{ user.address }}</p>
+            <p><span>Pin:</span> {{ user.pin }}</p>
+            <p><span>Contact:</span> {{ user.contact }}</p>
+
+        <!-- Worker Profile -->
+        {% elif session['role'] == 'worker' %}
+            <p><span>Name:</span> {{ user.name }}</p>
+            <p><span>Age:</span> {{ user.age }}</p>
+            <p><span>Service:</span> {{ user.service.name }}</p>
+            <p><span>Date of Joining:</span> {{ user.date_of_join }}</p>
+            <p><span>Experience:</span> {{ user.experience }} Yrs</p>
+            <p><span>Contact:</span> {{ user.contact }}</p>
+            <p><span>Address:</span> {{ user.address }}</p>
+            <p><span>Pin:</span> {{ user.pin }}</p>
+            <p><span>Description:</span> {{ user.description }}</p>
+        {% endif %}
+    </div>
+    <a href="{{ url_for('edit_profile') }}" class="btn btn-outline-danger">Edit Profile</a>
+    <a href="{{ url_for('logout') }}" class="btn btn-outline-danger">Logout</a>
+    
+</div>
+{% endblock %}
+

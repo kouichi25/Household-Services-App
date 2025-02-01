@@ -1,0 +1,98 @@
+{% include 'layout.html' %}
+
+{% block content %}
+<h2>Edit Worker Details</h2>
+<form action="{{ url_for('edit_worker_post', service_id=worker.service_id, worker_id=worker.id) }}" method="post" class="form">
+    <div class="form-group">
+        <label for="username" class="form-label">Change Username</label>
+        <input type="text"
+               name="username"
+               id="username"
+               value="{{ worker.username }}"
+               class="form-control"
+               required>
+    </div>
+
+    <div class="form-group">
+        <label for="currpassword" class="form-label">Current Password</label>
+        <input type="password" name="currpassword" id="currpassword" class="form-control" placeholder="Enter current password" required>
+    </div>
+
+    <div class="form-group">
+        <label for="newpassword" class="form-label">New Password</label>
+        <input type="password"
+               name="newpassword"
+               id="newpassword"
+               class="form-control"
+               placeholder="Enter new password (leave blank to keep current)">
+    </div>
+
+    <div class="form-group">
+        <label for="name" class="form-label">Change Name</label>
+        <input type="text"
+               name="name"
+               id="name"
+               value="{{ worker.name }}"
+               class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="age" class="form-label">Change Age</label>
+        <input type="number"
+               name="age"
+               id="age"
+               value="{{ worker.age }}"
+               class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="address" class="form-label">Change Address</label>
+        <input type="text"
+               name="address"
+               id="address"
+               value="{{ worker.address }}"
+               class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="pin" class="form-label">Change Pin</label>
+        <input type="tel"
+               name="pin"
+               id="pin"
+               value="{{ worker.pin }}"
+               class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="contact" class="form-label">Change Contact</label>
+        <input type="tel"
+               name="contact"
+               id="contact"
+               value="{{ worker.contact }}"
+               class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="email" class="form-label">Change Email</label>
+        <input type="email"
+               name="email"
+               id="email"
+               value="{{ worker.email }}"
+               class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="description" class="form-label">Change Description</label>
+        <input type="text"
+               name="description"
+               id="description"
+               value="{{ worker.description }}"
+               class="form-control">
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Save Changes" class="btn btn-primary">
+        <a href="{{ url_for('show_worker', service_id=worker.service_id, worker_id=worker.id) }}" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+{% endblock %}

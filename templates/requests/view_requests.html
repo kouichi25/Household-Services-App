@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white text-center">
+            <h3 class="card-title">Service Request Details</h3>
+        </div>
+        
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Service Name:</strong> {{ request.job.name }}</p>
+                    <p><strong>Base Price:</strong> Rs. {{ request.job.bp }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Worker Name:</strong> {{ request.worker.name }}</p>
+                    <p><strong>Worker Contact:</strong> {{ request.worker.contact }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Customer Name:</strong> {{ request.user.name }}</p>
+                    <p><strong>Customer Contact:</strong> {{ request.user.contact }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Special Request:</strong> {{ request.special_instructions }}</p>
+                    <p><strong>Status:</strong> {{ request.status }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="container my-5">
+        <h1 class="display-4 my-4">Your Bookings</h1>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Worker Name</th>
+                        <th>Job Name</th>
+                        <th>Base Price</th>
+                        <th>Date of Job</th>
+                        <th>Special Request</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for request in requests %}
+                        <tr>
+                            <td>{{ request.worker.name }}</td>
+                            <td>{{ request.job.name }}</td>
+                            <td>{{ request.job.bp }}</td>
+                            <td>{{ request.date_of_job }}</td>
+                            <td>{{ request.special_instructions }}</td>
+                            <td>{{ request.status }}</td>
+                            <td>
+                                <a href="{{ url_for('view_request', request_id=request.id) }}" class="btn btn-sm btn-info">
+                                    <i class="fa fa-eye" aria-hidden="true"></i> View
+                                </a>
+                            
+                                <!-- Revoke button -->
+                                {% if request.status == "Pending" %}
+                                <form action="{{ url_for('revoke_request', request_id=request.id) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        <i class="fa fa-times" aria-hidden="true"></i> Revoke
+                                    </button>
+                                </form>
+                                {% endif %}
+
+                                <!-- Complete button -->
+                                {% if request.status == "Approved" %}
+                                <form action="{{ url_for('complete_request', request_id=request.id) }}" method="GET" style="display:inline;">
+                                    <button type="submit" class="btn btn-sm btn-success">
+                                        <i class="fa fa-check" aria-hidden="true"></i> Close
+                                    </button>
+                                </form>
+                                {% endif %}
+                            </td>
+                            
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>    
+{% endblock %}

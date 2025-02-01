@@ -1,0 +1,21 @@
+<div class="container my-4">
+    <form action="{{ url_for('search_services') }}" method="get" class="d-flex justify-content-center align-items-center">
+        <!-- Dropdown for filter criteria -->
+        <div class="me-2">
+            <select class="form-select custom-select-lg" name="filter_criteria">
+                <option value="service">Service</option>
+                <option value="worker">Worker</option>
+                <option value="price">Price</option>
+            </select>
+        </div>
+
+        <!-- Search input -->
+        <div class="me-2 flex-grow-1">
+            <input class="form-control form-control-lg" type="search" name="query" placeholder="Search for services, workers, or jobs..." aria-label="Search">
+        </div>
+
+        <!-- Submit button -->
+        <button class="btn btn-success btn-lg px-4" type="submit">Search</button>
+    </form>
+</div>
+

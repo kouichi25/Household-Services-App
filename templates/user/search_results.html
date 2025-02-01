@@ -1,0 +1,95 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <br>
+    <br>
+    <br>
+    <h1>Search Results for "{{query}}"..</h1>
+    
+    {% if services %}
+        <h2>Services</h2>
+        <div class="d-flex flex-wrap">
+            {% for service in services %}
+            <div class="container mt-5">
+        
+                <div class="d-flex flex-wrap justify-content-start">
+                    {% for worker in service.workers %}
+                        {% for job in worker.jobs %}
+                            {% if job.approved == "True" %}
+                                <div class="card m-2" style="width: 18rem;">
+                                    <img src="https://api.dicebear.com/9.x/lorelei/svg?seed={{job.worker.username}}" class="card-img-top" alt="{{ job.name }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ job.name }}</h5>
+                                        <p class="card-text"><strong>Base Price:</strong> Rs. {{ job.bp }}</p>
+                                        <p class="card-text"><strong>Professional Name:</strong> {{ job.worker.name }}</p>
+                                        <p class="card-text"><strong>Description:</strong> {{ job.description or 'No description available' }}</p>
+                                        <p class="card-text">Ratings</p>
+                                        <form action="{{ url_for('service_request', job_id=job.id) }}" method="post">
+                                            <input type="hidden" name="worker_id" value="{{ worker.id }}">
+                                            <button type="submit" class="btn btn-primary">Book</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    {% if workers %}
+        <h2>Workers</h2>
+        <div class="d-flex flex-wrap">
+            {% for worker in workers %}
+            <div class="container mt-5">
+                <div class="d-flex flex-wrap justify-content-start">
+                        {% for job in worker.jobs %}
+                            {% if job.approved == "True" %}
+                                <div class="card m-2" style="width: 18rem;">
+                                    <img src="https://api.dicebear.com/9.x/lorelei/svg?seed={{job.worker.username}}" class="card-img-top" alt="{{ job.name }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ job.name }}</h5>
+                                        <p class="card-text"><strong>Base Price:</strong> Rs. {{ job.bp }}</p>
+                                        <p class="card-text"><strong>Professional Name:</strong> {{ job.worker.name }}</p>
+                                        <p class="card-text"><strong>Description:</strong> {{ job.description or 'No description available' }}</p>
+                                        <p class="card-text">Ratings</p>
+                                        <form action="{{ url_for('service_request', job_id=job.id) }}" method="post">
+                                            <input type="hidden" name="worker_id" value="{{ worker.id }}">
+                                            <button type="submit" class="btn btn-primary">Book</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    {% if jobs %}
+        <h2>Jobs</h2>
+        <div class="d-flex flex-wrap">
+            {% for job in jobs %}
+                {% if job.approved == "True" %}
+                <div class="card m-2" style="width: 18rem;">
+                    <img src="https://api.dicebear.com/9.x/lorelei/svg?seed={{job.worker.username}}" class="card-img-top" alt="{{ job.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ job.name }}</h5>
+                        <p class="card-text"><strong>Base Price:</strong> Rs. {{ job.bp }}</p>
+                        <p class="card-text"><strong>Professional Name:</strong> {{ job.worker.name }}</p>
+                        <p class="card-text"><strong>Description:</strong> {{ job.description or 'No description available' }}</p>
+                        <p class="card-text">Ratings</p>
+                        <form action="{{ url_for('service_request', job_id=job.id) }}" method="post">
+                            <input type="hidden" name="worker_id" value="{{ job.worker.id }}">
+                            <button type="submit" class="btn btn-primary">Book</button>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

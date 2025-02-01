@@ -1,0 +1,53 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h1 class="text-center mb-4">Login</h1>
+                    <form action="" method="post">
+                        
+                        <!-- Role selection -->
+                        <div class="mb-3">
+                            <label class="form-label">Login As</label><br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="role" id="user" value="user" required>
+                                <label class="form-check-label" for="user">User</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="role" id="service-professional" value="service_professional" required>
+                                <label class="form-check-label" for="service-professional">Service Professional</label>
+                            </div>
+                        </div>
+
+                        <!-- Username  -->
+                        <div class="mb-3">
+                            <label for="username" class="form-label">User Name</label>
+                            <input type="text" name="username" id="username" class="form-control" placeholder="Enter your username" required>
+                        </div>
+
+                        <!-- Password  -->
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" name="password" id="password" class="form-control" placeholder="Enter your password" required>
+                        </div>
+
+                        <!-- Submit button -->
+                        <div class="d-grid">
+                            <input type="submit" value="Login" class="btn btn-primary">
+                        </div>
+
+                        <!-- Registration links -->
+                        <div class="mt-4 text-center">
+                            <a href="{{ url_for('user_register') }}" class="btn btn-link">New User Register</a><br>
+                            <a href="{{ url_for('professional_register') }}" class="btn btn-link">New Professional Register</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

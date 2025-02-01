@@ -1,0 +1,80 @@
+{% extends 'layout.html' %}
+
+{% block style %}
+<style>
+    .rating {
+        direction: rtl;
+        display: inline-flex;
+    }
+    
+    .rating input {
+        display: none;
+    }
+    
+    .rating label {
+        font-size: 2rem;
+        color: #ccc;
+        cursor: pointer;
+    }
+    
+    .rating input:checked ~ label {
+        color: #f90;
+    }
+    
+    .rating label:hover,
+    .rating label:hover ~ label {
+        color: #fc0;
+    }
+    </style>
+    
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="card shadow">
+            <div class="card-body">
+                <h2 class="card-title">Complete Your Payment</h2>
+                <p class="card-text">You can make a payment of <strong>Rs. {{ request.job.bp }}</strong></p>
+
+                <form action="{{ url_for('complete_request', request_id=request.id) }}" method="POST">
+                    
+    <!-- Rating for Job -->
+    <div class="form-group mb-4">
+        <label for="job-rating" class="form-label">Rate the Service:</label>
+        <div class="rating">
+            <input type="radio" name="rating" id="star5" value="5" required><label for="star5" title="5 stars"><i class="fas fa-star"></i></label>
+            <input type="radio" name="rating" id="star4" value="4"><label for="star4" title="4 stars"><i class="fas fa-star"></i></label>
+            <input type="radio" name="rating" id="star3" value="3"><label for="star3" title="3 stars"><i class="fas fa-star"></i></label>
+            <input type="radio" name="rating" id="star2" value="2"><label for="star2" title="2 stars"><i class="fas fa-star"></i></label>
+            <input type="radio" name="rating" id="star1" value="1"><label for="star1" title="1 star"><i class="fas fa-star"></i></label>
+        </div>
+    </div>
+
+    <!-- Rating for Worker -->
+    <div class="form-group mb-4">
+        <label for="worker-rating" class="form-label">Rate the Professional:</label>
+        <div class="rating">
+            <input type="radio" name="worker_rating" id="worker_star5" value="5" required><label for="worker_star5" title="5 stars"><i class="fas fa-star"></i></label>
+            <input type="radio" name="worker_rating" id="worker_star4" value="4"><label for="worker_star4" title="4 stars"><i class="fas fa-star"></i></label>
+            <input type="radio" name="worker_rating" id="worker_star3" value="3"><label for="worker_star3" title="3 stars"><i class="fas fa-star"></i></label>
+            <input type="radio" name="worker_rating" id="worker_star2" value="2"><label for="worker_star2" title="2 stars"><i class="fas fa-star"></i></label>
+            <input type="radio" name="worker_rating" id="worker_star1" value="1"><label for="worker_star1" title="1 star"><i class="fas fa-star"></i></label>
+        </div>
+    </div>
+
+
+    <!-- Feedback -->
+    <div class="form-group mb-4">
+        <label for="feedback" class="form-label">Feedback</label>
+        <input type="text" class="form-control" id="feedback" name="feedback" placeholder="Enter your feedback">
+    </div>
+
+    <!-- Payment Button -->
+    <button type="submit" class="btn btn-success btn-block">
+        <i class="fa fa-credit-card" aria-hidden="true"></i> Pay Now
+    </button>
+    </form>
+    </div>
+        </div>
+    </div>
+{% endblock %}

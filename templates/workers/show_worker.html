@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block title %}
+    {{ worker.username }} Profile
+{% endblock %}
+
+{% block content %}
+    <div class="text-center">
+        <br>
+        <br>
+        <h1 class="mb-4">Hello <span class="text-muted">{{ worker.username }}</span></h1>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body d-flex flex-column align-items-center">  <!-- Align items to center -->
+                        
+                        <h3 class="card-title mb-4">Profile Details</h3>
+                        <div class="profile-pic mb-4">
+                            <img src="https://api.dicebear.com/9.x/lorelei/svg?seed={{ worker.username }}" alt="Profile Picture" class="img-fluid rounded-circle" style="max-width: 150px;">
+                        </div>
+                        <p class="card-text"><strong>Name:</strong> {{ worker.name }}</p>
+                        <p class="card-text"><strong>Age:</strong> {{ worker.age }} Yrs</p>
+                        <p class="card-text"><strong>Service:</strong> {{ worker.service.name }}</p>
+                        <p class="card-text"><strong>Experience:</strong> {{ worker.experience }} Yrs</p>
+                        <p class="card-text"><strong>Date Of Joining:</strong> {{ worker.date_of_join }}</p>
+                        <p class="card-text"><strong>Contact:</strong> {{ worker.contact }}</p>
+                        <p class="card-text"><strong>Address:</strong> {{ worker.address }}</p>
+                        <p class="card-text"><strong>Pin:</strong> {{ worker.pin }}</p>
+                        <p class="card-text"><strong>Description:</strong> {{ worker.description }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

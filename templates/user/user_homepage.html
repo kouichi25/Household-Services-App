@@ -1,0 +1,52 @@
+{% extends 'layout.html' %}
+
+{% block style %}
+    <link rel="stylesheet" href="user-homepage.css">
+{% endblock %}
+
+{% block content %}
+    {% include 'user/searchbar.html' %}
+
+    <div class="d-flex flex-column align-items-center justify-content-center text-center my-5">
+        <h1 class="welcome-message mb-3">Welcome, @{{ user.username }}!!</h1>
+        <h2 class="mb-4">How Can We Help You Today?</h2>
+        <form action="{{ url_for('user_bookings', user_id=user.id) }}" method="get">
+            <button type="submit" class="btn btn-lg btn-primary px-5 py-3 shadow-lg">Show My Bookings</button>
+        </form>
+    </div>
+    
+    
+
+    {% for service in services %}
+    <div class="container mt-5">
+        <h1 class="display-4 text-center mb-4">{{ service.name }} Services</h1>
+
+        <div class="d-flex flex-wrap justify-content-start">
+            {% for worker in service.workers %}
+                {% for job in worker.jobs %}
+                    {% if job.approved == "True" %}
+                        <div class="card m-2" style="width: 18rem;">
+                            <img src="https://api.dicebear.com/9.x/lorelei/svg?seed={{job.worker.username}}" class="card-img-top" alt="{{ job.name }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ job.name }}</h5>
+                                <p class="card-text"><strong>Base Price:</strong> Rs. {{ job.bp }}</p>
+                                <p class="card-text"><strong>Professional Name:</strong> {{ job.worker.name }}</p>
+                                <p class="card-text"><strong>Description:</strong> {{ job.description or 'No description available' }}</p>
+                                <p class="card-text"><strong>Service Rating:</strong> {{job.rating}}</p>
+                                <p class="card-text"><strong>Professional Rating:</strong> {{worker.rating}}</p>
+
+                                <form action="{{ url_for('service_request', job_id=job.id) }}" method="post">
+                                    <input type="hidden" name="worker_id" value="{{ worker.id }}">
+                                    <button type="submit" class="btn btn-primary">Book</button>
+                                </form>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+
+    
+{% endblock %}

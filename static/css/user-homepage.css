@@ -1,0 +1,17 @@
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.btn-sm {
+    margin-right: 5px;
+}
+
+.table th, .table td {
+    text-align: center;
+    vertical-align: middle;
+}

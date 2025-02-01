@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white text-center">
+            <h3 class="card-title">Job Details</h3>
+        </div>
+        <div class="card-body">
+            <p><strong>Job Name:</strong> {{ job.name }}</p>
+            <p><strong>Base Price:</strong> Rs. {{ job.bp }}</p>
+            <p><strong>Worker Name:</strong> {{ job.worker.name }}</p>
+            <p><strong>Approval Status:</strong> 
+                {% if job.approved == "True" %}
+                    Approved
+                {% elif job.approved == "False" %}
+                    Pending
+                {% else %}
+                    Rejected
+                {% endif %}
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
